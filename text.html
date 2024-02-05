@@ -2,9 +2,13 @@
   <body>
     <textarea id="mytextarea" rows="4" cols="40">
     </textarea>
+    <button id="showTextButton">Show Text</button>button> 
   </body>
   <script>
-    textarea = document.getElementById("mytextarea")
+    textarea = document.getElementById("mytextarea");
+    showtextButton = document.getElementById("showTextButton");
+    showTextButton.addeventlistener("click" , function() {
     alert(textarea.value)
+    });
   </script>
 </html>
