@@ -1,5 +1,40 @@
 <html>
-  <body>
-    Hello! Welcome to web-programming.
-  </body>
+
+<head>
+    <title>Number Comparison Updated</title>
+</head>
+    This is a demo page. 
+    <div id="area54">
+
+    </div>
+    <form id="numberForm">
+        <input type="number" id="number1" placeholder="Enter first number">
+        <input type="number" id="number2" placeholder="Enter second number">
+        <button id="submit_button" type="submit">Compare</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('numberForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                var number1 = document.getElementById('number1').value;
+                var number2 = document.getElementById('number2').value;
+                if (number1 > number2) {
+                    var message = "First number is greater than second number.";
+                } else if (number1 < number2) {
+                    var message = "First number is less than second number.";
+                } else {
+                    var message = "First number is equal to second number.";
+                }
+                document.getElementById('result').innerText = message;
+                document.getElementById('submit_button').disabled = true;
+                document.getElementById('area54').innerHTML = '<hr>';
+            });
+        });
+    </script>
+
+</body>
+
 </html>
