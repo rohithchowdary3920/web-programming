@@ -1,4 +1,4 @@
-# Creating a JSON structure with the provided classic science fiction movies information
+# Create a Mongita database with movie information
 import json
 from mongita import MongitaClientDisk
 
@@ -15,9 +15,20 @@ classic_sci_fi_movies = [
     {"title": "The Time Machine", "year": 1960, "director": "George Pal", "plot": "A man's quest for knowledge turns into a desperate race through time after he invents a machine that can transport him through time."}
 ]
 
-# Specify the file path for the JSON file
-file_path = 'classic_sci_fi_movies.json'
+# create a mongita client connection
+client = MongitaClientDisk()
 
-# Writing the data to a JSON file
-with open(file_path, 'w') as file:
-    json.dump(classic_sci_fi_movies, file, indent=4)
+# create a movie database
+movie_db = client.movie_db
+
+# create a scifi collection
+scifi_collection = movie_db.scifi_collection
+
+# empty the collection
+scifi_collection.delete_many({})
+
+# put the movies in the database
+scifi_collection.insert_many(classic_sci_fi_movies)
+
+# make sure the movies are there
+print(scifi_collection.count_documents({}))
