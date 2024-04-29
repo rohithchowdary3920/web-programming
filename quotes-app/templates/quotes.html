@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+    <!-- Link to Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .quote-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .quote-table th,
+        .quote-table td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+        .quote-actions a {
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .quote-actions a:hover {
+            color: #0056b3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mb-4">Quotes</h1>
+    <table class="table quote-table">
+        <thead>
+            <tr>
+                <th>Owner</th>
+                <th>Quote</th>
+                <th>Author</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item["owner"] }}</td>
+                <td>{{ item["text"] }}</td>
+                <td><em>--</em> <em>{{ item["author"] }}</em></td>
+                <td class="quote-actions">
+                    <a href="/edit/{{ item['_id'] }}" class="btn btn-sm btn-outline-primary" title="Edit"><i class="material-icons">mode_edit</i></a>
+                    <a href="/delete/{{ item['_id'] }}" class="btn btn-sm btn-outline-danger" title="Delete"><i class="material-icons">delete</i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-center">
+        <a href="/add" class="btn btn-primary">Add a new quote!</a>
+    </div>
+    <hr class="my-4">
+    <p class="text-center">User = {{ user }} (<a href="/logout">Logout</a>)</p>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
