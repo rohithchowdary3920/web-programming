@@ -35,11 +35,33 @@
             color: #0056b3;
             text-decoration: none;
         }
+        .search-form {
+            margin-bottom: 20px;
+        }
+        .search-button {
+            background-color: #4caf50; /* Vibrant Green Color */
+            border-color: #4caf50;
+            color: #fff; /* White Text Color */
+        }
+        .search-button:hover {
+            background-color: #388e3c; /* Darker Shade of Green on Hover */
+            border-color: #388e3c;
+            color: #fff; /* White Text Color */
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1 class="text-center mb-4">Quotes</h1>
+    <!-- Search Form -->
+    <form class="search-form">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="searchInput" placeholder="Search for quotes...">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary search-button" type="button" onclick="searchQuotes()">Search</button>
+            </div>
+        </div>
+    </form>
     <table class="table quote-table">
         <thead>
             <tr>
@@ -71,5 +93,26 @@
 </div>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    function searchQuotes() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementsByClassName("quote-table")[0];
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
 </body>
 </html>
