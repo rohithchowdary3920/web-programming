@@ -238,18 +238,38 @@ def get_edit(id=None):
 def post_edit():
     session_id = request.cookies.get("session_id", None)
     if not session_id:
-        response = redirect("/login")
-        return response
+        return redirect("/login")
 
     _id = request.form.get("_id", None)
     text = request.form.get("newQuote", "")
     author = request.form.get("newAuthor", "")
+    public = request.form.get("public", "") == "on"
+    comments_allowed = request.form.get("commentsAllowed", "") == "on"
+
+    session_collection = session_db.session_collection
+    session_data = list(session_collection.find({"session_id": session_id}))
+    if len(session_data) == 0:
+        return redirect("/logout")
+    
+    session_data = session_data[0]
+    user = session_data.get("user", "")
+
     if _id:
         quotes_collection = quotes_db.quotes_collection
-        values = {"$set": {"text": text, "author": author}}
-        data = quotes_collection.update_one({"_id": ObjectId(_id)}, values)
-    return redirect("/quotes")
+        # Fetch the quote
+        quote = quotes_collection.find_one({"_id": ObjectId(_id)})
 
+        # Check if the user is the owner of the quote
+        if quote and quote.get("owner") == user:
+            # Update the quote with new data
+            values = {
+                "text": text,
+                "author": author,
+                "public": public,
+                "comments_allowed": comments_allowed
+            }
+            quotes_collection.update_one({"_id": ObjectId(_id)}, {"$set": values})
+    return redirect("/quotes")
 
 @app.route("/delete", methods=["GET"])
 @app.route("/delete/<id>", methods=["GET"])

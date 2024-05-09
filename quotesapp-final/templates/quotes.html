@@ -121,13 +121,17 @@
                         <p class="text-muted mb-0">Public: {% if quote.public %} Yes {% else %} No {% endif %}</p>
                         <p class="text-muted mb-0">Comments Allowed: {% if quote.comments_allowed %} Yes {% else %} No {% endif %}</p>
                     </div>
-                    <div class="quote-actions">
-                        <a href="/edit/{{ quote._id }}" class="btn btn-primary mr-2">Edit</a>
-                        <form action="/delete/{{ quote._id }}" method="post" style="display: inline;">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
+                    {% if quote.owner == user %}
+                        <!-- Display edit and delete options for user's quotes -->
+                        <div class="quote-actions">
+                            <a href="/edit/{{ quote._id }}" class="btn btn-primary mr-2">Edit</a>
+                            <form action="/delete/{{ quote._id }}" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    {% endif %}
                     <ul>
+                        <!-- Display comments for all quotes -->
                         {% for comment in quote.comments %}
                             <li>{{ comment.text }} - {{ comment.owner }}</li>
                             {% if comment.owner == user %}

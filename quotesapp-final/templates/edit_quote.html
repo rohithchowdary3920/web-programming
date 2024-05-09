@@ -64,7 +64,7 @@
             <div class="form-container">
                 <h1 class="form-title">Edit this Quote...</h1>
                 <form action="/edit" method="POST">
-                    <input type="hidden" id="_id" name="_id" value="{{ data["_id"] }}">
+                    <input type="hidden" id="_id" name="_id" value="{{ data["id"] }}">
                     <div class="form-group">
                         <label for="newQuote">Quote</label>
                         <textarea class="form-control" id="newQuote" name="newQuote" rows="3">{{ data["text"] }}</textarea>
@@ -73,16 +73,20 @@
                         <label for="newAuthor">Author</label>
                         <input type="text" class="form-control" id="newAuthor" name="newAuthor" value="{{ data["author"] }}">
                     </div>
+                    <!-- Checkbox for public -->
                     <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="public"
-                        name="public" {% if data["public"] %} checked {% endif %}>
+                        <input type="checkbox" class="form-check-input" id="public" name="public" {% if data["public"] %} checked {% endif %}>
                         <label class="form-check-label" for="public">Public?</label>
-                      </div>
+                    </div>
+                    <!-- Checkbox for allowing comments -->
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="commentsAllowed" name="commentsAllowed" {% if data["comments_allowed"] %} checked {% endif %}>
+                        <label class="form-check-label" for="commentsAllowed">Allow Comments?</label>
+                    </div>
                     <button type="submit" class="btn btn-primary btn-block">Update</button>
                     <a href="/" class="btn btn-secondary btn-block mt-3">Cancel</a>
                 </form>
             </div>
-            
         </div>
     </div>
 </div>
