@@ -11,57 +11,56 @@
     <style>
         /* Custom CSS */
         body {
-            background-color: #f8f9fa;
+            background-color: #f8f9fa; /* Light gray */
             font-family: Arial, sans-serif;
         }
         .form-container {
             max-width: 400px;
             margin: 0 auto;
             padding: 30px;
-            background-color: #ffffff;
+            background-color: #fff; /* White */
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .form-title {
             margin-bottom: 20px;
             text-align: center;
-            color: #007bff; /* Blue color for title */
+            color: #8e44ad; /* Purple */
             font-size: 28px;
             font-weight: bold;
             text-transform: uppercase;
         }
         .form-group label {
-            color: #555555;
+            color: #3498db; /* Blue */
             font-weight: bold;
         }
         .form-control {
             border-radius: 5px;
-            border-color: #ced4da; /* Light gray border color */
+            border-color: #3498db; /* Blue */
         }
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #f39c12; /* Orange */
+            border-color: #f39c12; /* Orange */
             transition: background-color 0.3s ease;
         }
         .btn-primary:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-            border-color: #0056b3;
+            background-color: #d35400; /* Darker Orange on hover */
+            border-color: #d35400; /* Darker Orange on hover */
         }
         .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
+            background-color: #e74c3c; /* Red */
+            border-color: #e74c3c; /* Red */
         }
         .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #5a6268;
+            background-color: #c0392b; /* Darker Red on hover */
+            border-color: #c0392b; /* Darker Red on hover */
         }
-        a {
-            color: #007bff;
-            text-decoration: none;
-            transition: color 0.3s ease;
+        .password-message {
+            font-size: 12px;
+            color: #2ecc71; /* Green */
         }
-        a:hover {
-            color: #0056b3; /* Darker blue on hover */
+        .password-message.error {
+            color: #e74c3c; /* Red */
         }
     </style>
 </head>
@@ -70,8 +69,8 @@
     <div class="row justify-content-center mt-5">
         <div class="col-lg-6">
             <div class="form-container">
-                <h1 class="form-title"><b> Register your Account</h1>
-                <form action="/register" method="POST">
+                <h1 class="form-title"><b> Register your Account <i class="fas fa-user-plus"></i></b></h1>
+                <form action="/register" method="POST" onsubmit="return validatePassword()">
                     <div class="form-group">
                         <label for="user"><i class="fas fa-user"></i> Username</label>
                         <input type="text" class="form-control" id="user" name="user" required>
@@ -79,21 +78,58 @@
                     <div class="form-group">
                         <label for="password"><i class="fas fa-key"></i> Password</label>
                         <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="password-message" id="passwordMessage"></div>
                     </div>
                     <div class="form-group">
                         <label for="password2"><i class="fas fa-key"></i> Re-enter password</label>
                         <input type="password" class="form-control" id="password2" name="password2" required>
+                        <div class="password-message" id="confirmPasswordMessage"></div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-user-plus"></i> Register</button>
                     <br>
                     <a href="/" class="btn btn-secondary btn-block"><i class="fas fa-times"></i> Cancel</a>
                 </form>
-                <p class="text-center mt-3">Already registered? <a href="/login">Log in here!</a></p>
+                <p class="text-center mt-3">Already registered? <a href="/login">Log in here! <i class="fas fa-sign-in-alt"></i></a></p>
             </div>
         </div>
     </div>
 </div>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    function validatePassword() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("password2").value;
+        var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+        var passwordMessage = document.getElementById("passwordMessage");
+        if (!passwordPattern.test(password)) {
+            passwordMessage.innerHTML = "Password must be at least 8 characters long, containing at least one uppercase letter, one lowercase letter, one number, and one special character.";
+            passwordMessage.classList.remove("success");
+            passwordMessage.classList.add("error");
+            return false;
+        }
+        if (password !== confirmPassword) {
+            document.getElementById("confirmPasswordMessage").innerHTML = "Passwords do not match.";
+            return false;
+        }
+        return true;
+    }
+
+    // Update password message on input
+    document.getElementById("password").addEventListener("input", function () {
+        var password = document.getElementById("password").value;
+        var passwordMessage = document.getElementById("passwordMessage");
+        var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+        if (passwordPattern.test(password)) {
+            passwordMessage.innerHTML = "Password is valid.";
+            passwordMessage.classList.remove("error");
+            passwordMessage.classList.add("success");
+        } else {
+            passwordMessage.innerHTML = "Password should include:<br>- Length of 8<br>- At least one lowercase letter<br>- At least one uppercase letter<br>- At least one number (0-9)<br>- At least one special character";
+            passwordMessage.classList.remove("success");
+            passwordMessage.classList.add("error");
+        }
+    });
+</script>
 </body>
 </html>

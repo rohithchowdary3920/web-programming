@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log In</title>
-    <!-- Link to Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Custom CSS */
         body {
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
@@ -16,49 +15,61 @@
             max-width: 400px;
             margin: 0 auto;
             padding: 30px;
-            background-color: #ffffff;
+            background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .form-title {
             margin-bottom: 30px;
             text-align: center;
-            color: #111111;
+            color: #8e44ad;
             font-size: 24px;
+            font-weight: bold;
             text-transform: uppercase;
         }
         .form-group label {
-            color: #555555;
+            color: #3498db;
             font-weight: bold;
         }
         .form-control {
             border-radius: 5px;
-            border-color: #dddddd;
+            border-color: #3498db;
         }
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #f39c12;
+            border-color: #f39c12;
             transition: background-color 0.3s ease;
         }
         .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
+            background-color: #d35400;
+            border-color: #d35400;
         }
         .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
+            background-color: #e74c3c;
+            border-color: #e74c3c;
         }
         .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #5a6268;
+            background-color: #c0392b;
+            border-color: #c0392b;
         }
         a {
-            color: #007bff;
+            color: #3498db;
             text-decoration: none;
             transition: color 0.3s ease;
         }
+        a.signup-link {
+            animation: bounce 0.5s infinite alternate;
+        }
         a:hover {
-            color: #0056b3;
+            color: #2980b9;
+        }
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-5px);
+            }
         }
     </style>
 </head>
@@ -67,21 +78,21 @@
     <div class="row justify-content-center mt-5">
         <div class="col-lg-6">
             <div class="form-container">
-                <h1 class="form-title"><b>Login Here! </b></h1>
+                <h1 class="form-title"><b>Log In Here! <i class="fas fa-sign-in-alt"></i></b></h1>
                 <form action="/login" method="POST">
                     <div class="form-group">
-                        <label for="user">Username</label>
+                        <label for="user"><i class="fas fa-user"></i> Username</label>
                         <input type="text" class="form-control" id="user" name="user" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="password"><i class="fas fa-key"></i> Password</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                    <button type="submit" class="btn btn-primary btn-block">Log In <i class="fas fa-sign-in-alt"></i></button>
                     <br>
-                    <a href="/" class="btn btn-secondary btn-block">Cancel</a>
+                    <a href="/" class="btn btn-secondary btn-block">Cancel <i class="fas fa-times"></i></a>
                 </form>
-                <p class="text-center mt-3">Not registered? <a href="/register"><u>Sign up here!</u></a></p>
+                <p class="text-center mt-3">Not registered? <a href="/register" class="signup-link"><u>Sign up here! <i class="fas fa-user-plus"></i></u></a></p>
             </div>
         </div>
     </div>
