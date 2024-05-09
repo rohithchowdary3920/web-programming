@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .quote-details {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            font-family: Georgia, serif; /* Change font for the quote text */
+        }
+        .quote-details p.mb-1 {
+            font-style: italic; /* Italicize the quote text */
+        }
+        .quote-details p.text-muted.mb-0 {
+            font-weight: bold; /* Make the owner name bold */
+        }
+        .quote-actions {
+            margin-top: 10px;
+        }
+        h1 {
+            color: #4CAF50; /* Change heading color */
+            font-size: 32px; /* Adjust heading font size */
+        }
+        h2 {
+            color: #008CBA; /* Change sub-heading color */
+            font-size: 24px; /* Adjust sub-heading font size */
+        }
+        .btn {
+            border-radius: 20px;
+        }
+        .btn-primary {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #45a049; /* Darker Green */
+        }
+        .btn-danger {
+            background-color: #f44336; /* Red */
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+        .btn-danger:hover {
+            background-color: #d32f2f; /* Darker Red */
+        }
+        .btn-secondary {
+            background-color: #008CBA; /* Blue */
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+        .btn-secondary:hover {
+            background-color: #0077a7; /* Darker Blue */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form class="search-form" onsubmit="event.preventDefault(); searchQuotes();">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search for quotes...">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary search-button" type="button" onclick="searchQuotes()">Search</button>
+                </div>
+            </div>
+        </form>
+        <h1 class="text-center mb-4">Welcome, {{ user }}!</h1>
+        <div class="text-center mt-4">
+            <a href="/add" class="btn btn-success mr-2">Add Quote</a>
+            <a href="/logout" class="btn btn-secondary">Logout</a>
+        </div>
+        <h2 class="mb-4">Your Quotes:</h2>
+        <ul>
+            {% for quote in data %}
+                <li>
+                    <div class="quote-details">
+                        <p class="mb-1">{{ quote.text }} - {{ quote.author }}</p>
+                        <p class="text-muted mb-0">Added by: <strong>{{ quote.owner }}</strong></p>
+                        <p class="text-muted mb-0">Public: {% if quote.public %} Yes {% else %} No {% endif %}</p>
+                        <p class="text-muted mb-0">Comments Allowed: {% if quote.comments_allowed %} Yes {% else %} No {% endif %}</p>
+                    </div>
+                    <div class="quote-actions">
+                        <a href="/edit/{{ quote._id }}" class="btn btn-primary mr-2">Edit</a>
+                        <form action="/delete/{{ quote._id }}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                    <ul>
+                        {% for comment in quote.comments %}
+                            <li>{{ comment.text }} - {{ comment.owner }}</li>
+                            {% if comment.owner == user %}
+                                <form action="/comments/delete" method="post">
+                                    <input type="hidden" name="_id" value="{{ comment._id }}">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete Comment</button>
+                                </form>
+                            {% endif %}
+                        {% endfor %}
+                        {% if quote.comments_allowed %}
+                            <form action="/comments/add" method="post">
+                                <input type="hidden" name="_id" value="{{ quote._id }}">
+                                <div class="form-group">
+                                    <textarea class="form-control" name="newcomment" rows="1" placeholder="Add a comment"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Comment</button>
+                            </form>
+                        {% endif %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function searchQuotes() {
+            // Get the search input value
+            var searchInput = document.getElementById("searchInput").value.toLowerCase();
+    
+            // Get all the list items containing quotes
+            var quoteItems = document.querySelectorAll("ul > li");
+    
+            // Loop through each quote list item
+            for (var i = 0; i < quoteItems.length; i++) {
+                var quoteDetails = quoteItems[i].getElementsByClassName("quote-details")[0];
+                var quoteText = quoteDetails.getElementsByTagName("p")[0].textContent.toLowerCase();
+                // Check if the quote text contains the search input value
+                if (quoteText.includes(searchInput)) {
+                    // If it does, display the quote and its associated actions
+                    quoteItems[i].style.display = "block";
+                } else {
+                    // If it doesn't, hide the entire list item
+                    quoteItems[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

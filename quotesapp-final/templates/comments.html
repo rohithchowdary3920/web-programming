@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments</title>
+</head>
+<body>
+    <h1>Comments for "{{ data.text }}"</h1>
+    <ul>
+        {% for comment in cmtdata %}
+            <li>{{ comment.text }} - {{ comment.owner }}</li>
+        {% endfor %}
+    </ul>
+    <form action="/comments/add" method="post">
+        <input type="hidden" name="_id" value="{{ data.id }}">
+        <textarea name="newcomment" id="newcomment" cols="30" rows="10"></textarea>
+        <button type="submit">Add Comment</button>
+    </form>
+    <a href="/quotes">Back to Quotes</a>
+    <a href="/logout">Logout</a>
+</body>
+</html>

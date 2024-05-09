@@ -48,6 +48,23 @@
             border-color: #388e3c;
             color: #fff; /* White Text Color */
         }
+        /* New styles for comments */
+        .comment-container {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .comment {
+            margin-bottom: 5px;
+        }
+        .delete-comment {
+            color: #dc3545;
+            cursor: pointer;
+        }
+        .delete-comment:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -80,6 +97,23 @@
                 <td class="quote-actions">
                     <a href="/edit/{{ item['_id'] }}" class="btn btn-sm btn-outline-primary" title="Edit"><i class="material-icons">mode_edit</i></a>
                     <a href="/delete/{{ item['_id'] }}" class="btn btn-sm btn-outline-danger" title="Delete"><i class="material-icons">delete</i></a>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="toggleComments('{{ item['_id'] }}')">Comments</button>
+                </td>
+            </tr>
+            <!-- Comment Section -->
+            <tr style="display: none;" id="commentRow_{{ item['_id'] }}">
+                <td colspan="4">
+                    <div class="comment-container" id="commentContainer_{{ item['_id'] }}">
+                        <!-- Comments will be dynamically added here -->
+                    </div>
+                    <form class="add-comment-form" id="addCommentForm_{{ item['_id'] }}" style="margin-top: 10px; display: none;">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Add a comment..." id="commentInput_{{ item['_id'] }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" onclick="addComment('{{ item['_id'] }}')">Add</button>
+                            </div>
+                        </div>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -112,6 +146,36 @@
                 }
             }
         }
+    }
+
+    // Function to toggle comments visibility
+    function toggleComments(itemId) {
+        var commentRow = document.getElementById("commentRow_" + itemId);
+        if (commentRow.style.display === "none") {
+            commentRow.style.display = "";
+            loadComments(itemId);
+        } else {
+            commentRow.style.display = "none";
+        }
+    }
+
+    // Function to load comments via AJAX
+    function loadComments(itemId) {
+        // You can implement AJAX call here to fetch comments for the given itemId
+        // and dynamically populate the comment container
+    }
+
+    // Function to add a new comment
+    function addComment(itemId) {
+        var commentInput = document.getElementById("commentInput_" + itemId).value;
+        // You can implement AJAX call here to add a new comment for the given itemId
+        // and update the comment container
+    }
+
+    // Function to delete a comment
+    function deleteComment(commentId) {
+        // You can implement AJAX call here to delete the comment with the given commentId
+        // and update the comment container
     }
 </script>
 </body>

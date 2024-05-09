@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Quote</title>
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .form-title {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #007bff; /* Blue color for title */
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .form-group label {
+            color: #555555;
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 5px;
+            border-color: #ced4da; /* Light gray border color */
+        }
+        .form-check-input {
+            margin-top: 0.3rem;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            border-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-8">
+            <div class="form-container">
+                <h1 class="form-title">Edit this Quote...</h1>
+                <form action="/edit" method="POST">
+                    <input type="hidden" id="_id" name="_id" value="{{ data["_id"] }}">
+                    <div class="form-group">
+                        <label for="newQuote">Quote</label>
+                        <textarea class="form-control" id="newQuote" name="newQuote" rows="3">{{ data["text"] }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="newAuthor">Author</label>
+                        <input type="text" class="form-control" id="newAuthor" name="newAuthor" value="{{ data["author"] }}">
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="public"
+                        name="public" {% if data["public"] %} checked {% endif %}>
+                        <label class="form-check-label" for="public">Public?</label>
+                      </div>
+                    <button type="submit" class="btn btn-primary btn-block">Update</button>
+                    <a href="/" class="btn btn-secondary btn-block mt-3">Cancel</a>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
